@@ -42,6 +42,9 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         var database = new Database();
+        this.state = {
+            database
+        };
     }
     render() {
         return (
@@ -54,13 +57,13 @@ export default class Home extends Component {
             >
                 <View
                     style={{
-                        height: "30%",
+                        height: '30%',
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}
                 >
                     <Avatar
-                        size="xlarge"
+                        size='xlarge'
                         source={require('../images/Logo1.png')}
                     />
                 </View>
@@ -74,7 +77,9 @@ export default class Home extends Component {
                             titleStyle={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}
                             containerStyle={{ backgroundColor: item.color, flex: 1 }}
                             chevronColor='white'
-                            onPress={() => this.props.navigation.push(item.navigation)}
+                            onPress={() => this.props.navigation.push(item.navigation, {
+                                database: this.state.database
+                            })}
                         />
                     ))
                 }

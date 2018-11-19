@@ -10,8 +10,199 @@ class Database {
             }
         });
 
+
         this.db = db;
     }
+
+    quote(string) {
+        return "'" + string + "'"
+    }
+
+    async getDoctor(SSN_D) {
+        console.log(SSN_D);
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('Select Doctor.SSN_D, Name_D, Name_P from Doctor,Patient,Has_a where Doctor.SSN_D= ' + this.quote(SSN_D) + 'and Has_a.SSN_D=Doctor.SSN_D and Has_a.SSN_P=Patient.SSN_P',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+    async getPatientDrugs(SSN_P) {
+        console.log(SSN_P);
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('Select Prescribe.SSN_P, Name_P, Trade_Name from Patient, Prescribe where Prescribe.SSN_P= ' + this.quote(SSN_P) + 'and Prescribe.SSN_P=Patient.SSN_P',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+    async getPatientDoctors(SSN_P) {
+        console.log(SSN_P);
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('Select Patient.SSN_P, Name_P, Name_D from Doctor, Patient,Has_a where Patient.SSN_P= ' + this.quote(SSN_P) + 'and Has_a.SSN_P=Patient.SSN_P and Has_a.SSN_D=Doctor.SSN_D',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+    async getPharmacies() {
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('Select * from Pharmacy',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+    async addDoctor(SSN_D, Name_D, Speciality, Years_experience) {
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('INSERT INTO Doctor values(' + this.quote(SSN_D) + ',' + this.quote(Name_D) + ',' + this.quote(Speciality) + ',' + Years_experience + ')',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+    async addPatient(SSN_P, Name_P, Age, SSN_D) {
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('INSERT INTO Patient values(' + this.quote(SSN_P) + ',' + this.quote(Name_P) + ',' + Age + ',' + this.quote(SSN_D) + ')',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+    async addAddress(add_id, add_Name, SSN_P) {
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('INSERT INTO Addresses values(' + add_id + ',' + this.quote(add_Name) + ',' + this.quote(SSN_P) + ')',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+    async addDrug(Trade_Name, formula) {
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('INSERT INTO Addresses values(' + this.quote(Trade_Name) + ',' + this.quote(formula) + ')',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+    async addPC(Name_PC, Phone_Number_PC) {
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('INSERT INTO Pharmaceutical_Company values(' + this.quote(Name_PC) + ',' + Phone_Number_PC + ')',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+    async addPharmacy(Name_Ph, Address_Ph, Phone_Number_Ph) {
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('INSERT INTO Pharmacy values(' + this.quote(Name_Ph) + ',' + this.quote(Address_Ph) + ',' + Phone_Number_Ph + ')',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+    async addPrescribe(Date, Quantity, Trade_Name, SSN_D, SSN_P) {
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('INSERT INTO Prescribe values(' + Date + ',' + Quantity + ',' + this.quote(Trade_Name) + ',' + this.quote(SSN_D) + ',' + this.quote(SSN_P) + ')',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+    async addSells(Trade_Name, Price, Trade_Name, Name_Ph, Address_Ph) {
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('INSERT INTO Sells values(' + this.quote(Trade_Name) + ',' + Price + ',' + this.quote(Name_Ph) + ',' + this.quote(Address_Ph) + ')',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+    async addSells2(Trade_Name, Name_PC) {
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('INSERT INTO Sells2 values(' + this.quote(Trade_Name) + ',' + this.quote(Name_PC) + ')',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+    async addContract(Name_Ph, Address_Ph, Name_PC, Start_Date, End_Date, Text, Supervisor) {
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('INSERT INTO Contract values(' + this.quote(Name_Ph) + ',' + this.quote(Address_Ph) + ',' + this.quote(Name_PC) + ',' + Start_Date + ',' + End_Date + ',' + this.quote(Text) + ',' + this.quote(Supervisor) + ')',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+    async addHas_a(SSN_D, SSN_P) {
+        return new Promise(resolve => {
+            this.db.transaction((tx) => {
+
+                tx.executeSql('INSERT INTO Has_a values(' + quote(SSN_D) + ',' + this.quote(SSN_P) + ')',
+                    [], (tx, results) => {
+                        resolve(results);
+                    })
+            });
+        });
+    }
+
+
+
 
     errorCB(err) {
         console.log('SQL Error: ' + err);

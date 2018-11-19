@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Picker, TextInput } from 'react-native';
 import Colors from '../constants/Colors';
+import { Button } from "react-native-elements";
 import DatePicker from 'react-native-datepicker';
 
 export default class AddData extends Component {
@@ -18,38 +19,36 @@ export default class AddData extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            table: 'Doctor',
+            table: 'doctor',
             SSN_D: null,
             Name_D: null,
             Specialty: null,
             Years_experience: null,
-            SSN_P:null,
+            SSN_P: null,
             Name_P: null,
-            Age:null,
-            add_id:null,
-            add_Name:null,
+            Age: null,
+            add_id: null,
+            add_Name: null,
             Trade_Name: null,
-            formula:null,
-            
-
+            formula: null,
         };
-        this.Submit= this.Submit.bind(this);
+        this.Submit = this.Submit.bind(this);
     }
 
     async Submit() {
-        const {table} = this.state;
+        const { table } = this.state;
         if (table == "doctor") {
-        var result = await this.state.database.addDoctor(this.state.SSN_D, this.state.Name_D, this.state.Specialty, this.state.Years_experience);
+            var result = await this.state.database.addDoctor(this.state.SSN_D, this.state.Name_D, this.state.Specialty, this.state.Years_experience);
         }
         if (table == "patient") {
             var result = await this.state.database.addPatient(this.state.SSN_P, this.state.Name_P, this.state.Age, this.state.SSN_D);
-            }
+        }
         if (table == "addresses") {
             var result = await this.state.database.addAddress(this.state.add_id, this.state.add_Name, this.state.SSN_P);
-            }
-            if (table == "drug") {
-                var result = await this.state.database.addDrug(this.state.Trade_Name, this.state.formula);
-                }
+        }
+        if (table == "drug") {
+            var result = await this.state.database.addDrug(this.state.Trade_Name, this.state.formula);
+        }
     }
 
 
@@ -58,96 +57,96 @@ export default class AddData extends Component {
         if (table == "doctor") {
             return (
                 <View>
-                <TextInput
-                    placeholder="SSN_D"
-                    onChangeText={(text) => this.setState({SSN_D: text})}
-                    value={this.state.SSN_D}
-                />
-                <TextInput
-                    placeholder="Name_D"
-                    onChangeText={(text) => this.setState({Name_D: text})}
-                    value={this.state.Name_D}
-                />
-                <TextInput
-                    placeholder="Specialty"
-                    onChangeText={(text) => this.setState({Specialty: text})}
-                    value={this.state.Specialty}
-                />
+                    <TextInput
+                        placeholder="SSN_D"
+                        onChangeText={(text) => this.setState({ SSN_D: text })}
+                        value={this.state.SSN_D}
+                    />
+                    <TextInput
+                        placeholder="Name_D"
+                        onChangeText={(text) => this.setState({ Name_D: text })}
+                        value={this.state.Name_D}
+                    />
+                    <TextInput
+                        placeholder="Specialty"
+                        onChangeText={(text) => this.setState({ Specialty: text })}
+                        value={this.state.Specialty}
+                    />
 
-                <TextInput
-                    placeholder="Years_experience"
-                    keyboardType='numeric'
-                    onChangeText={(text) => this.setState({Years_experience: text})}
-                    value={this.state.Years_experience}
-                />
+                    <TextInput
+                        placeholder="Years_experience"
+                        keyboardType='numeric'
+                        onChangeText={(text) => this.setState({ Years_experience: text })}
+                        value={this.state.Years_experience}
+                    />
 
-                </View>  
+                </View>
             );
         }
         if (table == "patient") {
             return (
                 <View>
-                <TextInput
-                    placeholder="SSN_P"
-                    onChangeText={(text) => this.setState({SSN_P: text})}
-                    value={this.state.SSN_P}
-                />
-                <TextInput
-                    placeholder="Name_P"
-                    onChangeText={(text) => this.setState({Name_P: text})}
-                    value={this.state.Name_P}
-                />
-                <TextInput
-                    placeholder="Age"
-                    keyboardType='numeric'
-                    onChangeText={(text) => this.setState({Age: text})}
-                    value={this.state.Age}
-                />
+                    <TextInput
+                        placeholder="SSN_P"
+                        onChangeText={(text) => this.setState({ SSN_P: text })}
+                        value={this.state.SSN_P}
+                    />
+                    <TextInput
+                        placeholder="Name_P"
+                        onChangeText={(text) => this.setState({ Name_P: text })}
+                        value={this.state.Name_P}
+                    />
+                    <TextInput
+                        placeholder="Age"
+                        keyboardType='numeric'
+                        onChangeText={(text) => this.setState({ Age: text })}
+                        value={this.state.Age}
+                    />
 
-                <TextInput
-                    placeholder="SSN_D"
-                    onChangeText={(text) => this.setState({SSN_D: text})}
-                    value={this.state.SSN_D}
-                />
-                </View>  
+                    <TextInput
+                        placeholder="SSN_D"
+                        onChangeText={(text) => this.setState({ SSN_D: text })}
+                        value={this.state.SSN_D}
+                    />
+                </View>
             );
         }
         if (table == "addresses") {
             return (
                 <View>
-                <TextInput
-                    placeholder="add_id"
-                    keyboardType='numeric'
-                    onChangeText={(text) => this.setState({add_id: text})}
-                    value={this.state.add_id}
-                />
-                <TextInput
-                    placeholder="add_Name"
-                    onChangeText={(text) => this.setState({add_Name: text})}
-                    value={this.state.add_Name}
-                />
-                <TextInput
-                    placeholder="SSN_P"
-                    onChangeText={(text) => this.setState({SSN_P: text})}
-                    value={this.state.SSN_P}
-                />
-                </View>  
+                    <TextInput
+                        placeholder="add_id"
+                        keyboardType='numeric'
+                        onChangeText={(text) => this.setState({ add_id: text })}
+                        value={this.state.add_id}
+                    />
+                    <TextInput
+                        placeholder="add_Name"
+                        onChangeText={(text) => this.setState({ add_Name: text })}
+                        value={this.state.add_Name}
+                    />
+                    <TextInput
+                        placeholder="SSN_P"
+                        onChangeText={(text) => this.setState({ SSN_P: text })}
+                        value={this.state.SSN_P}
+                    />
+                </View>
             );
         }
         if (table == "drug") {
             return (
                 <View>
-                <TextInput
-                    placeholder="Trade_Name"
-                    onChangeText={(text) => this.setState({Trade_Name: text})}
-                    value={this.state.Trade_Name}
-                />
-                <TextInput
-                    placeholder="formula"
-                    onChangeText={(text) => this.setState({formula: text})}
-                    value={this.state.formula}
-                />
-                </View>  
+                    <TextInput
+                        placeholder="Trade_Name"
+                        onChangeText={(text) => this.setState({ Trade_Name: text })}
+                        value={this.state.Trade_Name}
+                    />
+                    <TextInput
+                        placeholder="formula"
+                        onChangeText={(text) => this.setState({ formula: text })}
+                        value={this.state.formula}
+                    />
+                </View>
             );
         }
     }
@@ -163,7 +162,7 @@ export default class AddData extends Component {
                 }}
             >
                 <Picker
-                    selectedValue={this.state.language}
+                    selectedValue={this.state.table}
                     style={{ height: 50, width: 100 }}
                     onValueChange={(itemValue, itemIndex) => this.setState({ table: itemValue })}>
                     <Picker.Item label="Doctor" value="doctor" />

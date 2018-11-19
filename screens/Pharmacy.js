@@ -13,10 +13,28 @@ export default class Pharmacy extends Component {
             fontWeight: 'bold'
         },
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            database: this.props.navigation.getParam('database', null),
+        };
+        this.getPharmacies = this.getPharmacies.bind(this);
+    }
+
     render() {
         return (
-            <View >
-                <Text>Pharmacy</Text>
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    alignItems: 'center'
+                }}
+            >
+                <Button
+                    title="Get pharmacies"
+                    onPress={() => this.getPharmacies()}
+                    buttonStyle={{ backgroundColor: Colors.pharmacy.main, margin: 20 }} />
             </View>
         );
     }

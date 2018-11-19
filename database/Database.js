@@ -153,7 +153,7 @@ class Database {
         });
     }
 
-    async addSells(Trade_Name, Price, Trade_Name, Name_Ph, Address_Ph) {
+    async addSells(Trade_Name, Price, Name_Ph, Address_Ph) {
         return new Promise(resolve => {
             this.db.transaction((tx) => {
 

@@ -68,6 +68,5 @@ export default class AddData extends Component {
                     onPress={() => this.getDoctor()} />
             </View>
         );
-        );
     }
 }

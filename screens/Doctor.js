@@ -26,6 +26,7 @@ export default class Doctor extends Component {
 
     async getDoctor() {
         var result = await this.state.database.getDoctor(this.state.SSN_D);
+        console.log(result);
     }
     render() {
         return (

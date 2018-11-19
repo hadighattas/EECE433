@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import Colors from '../constants/Colors';
+import { Button } from 'react-native-elements';
 
 export default class Pharmacy extends Component {
     static navigationOptions = {
@@ -20,6 +21,11 @@ export default class Pharmacy extends Component {
             database: this.props.navigation.getParam('database', null),
         };
         this.getPharmacies = this.getPharmacies.bind(this);
+    }
+
+    async getPharmacies() {
+        var result = await this.state.database.getPatientDrugs(this.state.SSN_P);
+        console.log(result);
     }
 
     render() {

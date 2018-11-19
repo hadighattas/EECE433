@@ -76,6 +76,7 @@ class Database {
                 tx.executeSql('INSERT INTO Doctor values(' + this.quote(SSN_D) + ',' + this.quote(Name_D) + ',' + this.quote(Speciality) + ',' + Years_experience + ')',
                     [], (tx, results) => {
                         resolve(results);
+                        console.log(results);
                     })
             });
         });

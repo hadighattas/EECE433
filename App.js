@@ -6,8 +6,8 @@ import Pharmacy from './screens/Pharmacy';
 import AddData from './screens/AddData';
 
 const App = createStackNavigator({
-  // Home: { screen: Home },
-  // Doctor: { screen: Doctor },
+  Home: { screen: Home },
+  Doctor: { screen: Doctor },
   Patient: { screen: Patient },
   Pharmacy: { screen: Pharmacy },
   AddData: { screen: AddData },

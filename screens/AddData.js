@@ -31,6 +31,18 @@ export default class AddData extends Component {
             add_Name: null,
             Trade_Name: null,
             formula: null,
+            Name_PC: null,
+            Phone_Number_PC: null,
+            Name_Ph: null,
+            Address_Ph: null,
+            Phone_Number_Ph: null,
+            Date: null,
+            Quantity: null,
+            Price: null,
+            Start_Date: null,
+            End_Date: null,
+            Text: null,
+            Supervisor: null,
         };
         this.Submit = this.Submit.bind(this);
     }
@@ -48,6 +60,27 @@ export default class AddData extends Component {
         }
         if (table == "drug") {
             var result = await this.state.database.addDrug(this.state.Trade_Name, this.state.formula);
+        }
+        if (table == "Pharmaceutical_Company") {
+            var result = await this.state.database.addPC(this.state.Name_PC, this.state.Phone_Number_PC);
+        }
+        if (table == "Pharmacy") {
+            var result = await this.state.database.addPharmacy(this.state.Name_Ph, this.state.Address_Ph, this.state.Phone_Number_Ph);
+        }
+        if (table == "Prescribe") {
+            var result = await this.state.database.addPrescribe(this.state.Date, this.state.Quantity, this.state.Trade_Name, this.state.SSN_D, this.state.SSN_P);
+        }
+        if (table == "Sells") {
+            var result = await this.state.database.addSells(this.state.Trade_Name, this.state.Price, this.state.Name_Ph, this.state.Address_Ph);
+        }
+        if (table == "Sells2") {
+            var result = await this.state.database.addSells2(this.state.Trade_Name, this.state.Name_PC);
+        }
+        if (table == "Contract") {
+            var result = await this.state.database.addSells2(this.state.Name_Ph, this.state.Address_Ph, this.state.Name_PC, this.state.Start_Date, this.state.End_Date, this.state.End_Date, this.state.Text, this.state.Supervisor);
+        }
+        if (table == "Has_a") {
+            var result = await this.state.database.addSells2(this.state.SSN_D, this.state.SSN_P);
         }
     }
 
@@ -145,6 +178,229 @@ export default class AddData extends Component {
                         placeholder="formula"
                         onChangeText={(text) => this.setState({ formula: text })}
                         value={this.state.formula}
+                    />
+                </View>
+            );
+        }
+        if (table == "Pharmaceutical_Company") {
+            return (
+                <View>
+                    <TextInput
+                        placeholder="Name_PC"
+                        onChangeText={(text) => this.setState({ Name_PC: text })}
+                        value={this.state.Name_PC}
+                    />
+                    <TextInput
+                        placeholder="Phone_Number_PC"
+                        keyboardType='numeric'
+                        onChangeText={(text) => this.setState({ Phone_Number_PC: text })}
+                        value={this.state.Phone_Number_PC}
+                    />
+                </View>
+            );
+        }
+        if (table == "Pharmacy") {
+            return (
+                <View>
+                    <TextInput
+                        placeholder="Name_Ph"
+                        onChangeText={(text) => this.setState({ Name_Ph: text })}
+                        value={this.state.Name_Ph}
+                    />
+                    <TextInput
+                        placeholder="Address_Ph"
+                        onChangeText={(text) => this.setState({ Address_Ph: text })}
+                        value={this.state.Address_Ph}
+                    />
+                    <TextInput
+                        placeholder="Phone_Number_Ph"
+                        keyboardType='numeric'
+                        onChangeText={(text) => this.setState({ Phone_Number_Ph: text })}
+                        value={this.state.Phone_Number_Ph}
+                    />
+                </View>
+            );
+        }
+        if (table == "Prescribe") {
+            return (
+                <View>
+                    <DatePicker
+                        style={{ width: 200 }}
+                        Date={this.state.Date}
+                        mode="Date"
+                        placeholder="Date"
+                        format="YYYY-MM-DD"
+                        confirmBtnText="Confirm"
+                        cancelBtnText="Cancel"
+                        customStyles={{
+                            dateIcon: {
+                                position: 'absolute',
+                                left: 0,
+                                top: 4,
+                                marginLeft: 0
+                            },
+                            dateInput: {
+                                marginLeft: 36
+                            }
+                        }}
+                        onDateChange={(date) => { this.setState({ Date: date }) }}
+                        value={this.state.Date}
+                    />
+                    <TextInput
+                        placeholder="Quantity"
+                        keyboardType='numeric'
+                        onChangeText={(text) => this.setState({ Quantity: text })}
+                        value={this.state.Quantity}
+                    />
+                    <TextInput
+                        placeholder="Trade_Name"
+                        onChangeText={(text) => this.setState({ Trade_Name: text })}
+                        value={this.state.Trade_Name}
+                    />
+                    <TextInput
+                        placeholder="SSN_D"
+                        onChangeText={(text) => this.setState({ SSN_D: text })}
+                        value={this.state.SSN_D}
+                    />
+                    <TextInput
+                        placeholder="SSN_P"
+                        onChangeText={(text) => this.setState({ SSN_P: text })}
+                        value={this.state.SSN_P}
+                    />
+                </View>
+            );
+        }
+        if (table == "Sells") {
+            return (
+                <View>
+                    <TextInput
+                        placeholder="Trade_Name"
+                        onChangeText={(text) => this.setState({ Trade_Name: text })}
+                        value={this.state.Trade_Name}
+                    />
+                    <TextInput
+                        placeholder="Price"
+                        keyboardType='decimal-pad'
+                        onChangeText={(text) => this.setState({ Price: text })}
+                        value={this.state.Price}
+                    />
+                    <TextInput
+                        placeholder="Name_Ph"
+                        onChangeText={(text) => this.setState({ Name_Ph: text })}
+                        value={this.state.Name_Ph}
+                    />
+                    <TextInput
+                        placeholder="Address_Ph"
+                        onChangeText={(text) => this.setState({ Address_Ph: text })}
+                        value={this.state.Address_Ph}
+                    />
+                </View>
+            );
+        }
+        if (table == "Sells2") {
+            return (
+                <View>
+                    <TextInput
+                        placeholder="Trade_Name"
+                        onChangeText={(text) => this.setState({ Trade_Name: text })}
+                        value={this.state.Trade_Name}
+                    />
+                    <TextInput
+                        placeholder="Name_PC"
+                        onChangeText={(text) => this.setState({ Name_PC: text })}
+                        value={this.state.Name_PC}
+                    />
+                </View>
+            );
+        }
+        //Update dates
+        if (table == "Contract") {
+            return (
+                <View>
+                    <TextInput
+                        placeholder="Name_Ph"
+                        onChangeText={(text) => this.setState({ Name_Ph: text })}
+                        value={this.state.Name_Ph}
+                    />
+                    <TextInput
+                        placeholder="Address_Ph"
+                        onChangeText={(text) => this.setState({ Address_Ph: text })}
+                        value={this.state.Address_Ph}
+                    />
+                    <TextInput
+                        placeholder="Name_PC"
+                        onChangeText={(text) => this.setState({ Name_PC: text })}
+                        value={this.state.Name_PC}
+                    />                   
+                    <DatePicker
+                        style={{ width: 200 }}
+                        Date={this.state.Date}
+                        mode="Start_Date"
+                        placeholder="Start_Date"
+                        format="YYYY-MM-DD"
+                        confirmBtnText="Confirm"
+                        cancelBtnText="Cancel"
+                        customStyles={{
+                            dateIcon: {
+                                position: 'absolute',
+                                left: 0,
+                                top: 4,
+                                marginLeft: 0
+                            },
+                            dateInput: {
+                                marginLeft: 36
+                            }
+                        }}
+                        onDateChange={(date) => { this.setState({ Start_Date: date }) }}
+                        value={this.state.Start_Date}
+                    />
+                    <DatePicker
+                        style={{ width: 200 }}
+                        Date={this.state.Date}
+                        mode="End_Date"
+                        placeholder="End_Date"
+                        format="YYYY-MM-DD"
+                        confirmBtnText="Confirm"
+                        cancelBtnText="Cancel"
+                        customStyles={{
+                            dateIcon: {
+                                position: 'absolute',
+                                left: 0,
+                                top: 4,
+                                marginLeft: 0
+                            },
+                            dateInput: {
+                                marginLeft: 36
+                            }
+                        }}
+                        onDateChange={(date) => { this.setState({ End_Date: date }) }}
+                        value={this.state.End_Date}
+                    />
+                    <TextInput
+                        placeholder="Text"
+                        onChangeText={(text) => this.setState({ Text: text })}
+                        value={this.state.Text}
+                    />
+                    <TextInput
+                        placeholder="Supervisor"
+                        onChangeText={(text) => this.setState({ Supervisor: text })}
+                        value={this.state.Supervisor}
+                    />
+                </View>
+            );
+        }
+        if (table == "Has_a") {
+            return (
+                <View>
+                    <TextInput
+                        placeholder="SSN_D"
+                        onChangeText={(text) => this.setState({ SSN_D: text })}
+                        value={this.state.SSN_D}
+                    />
+                    <TextInput
+                        placeholder="SSN_P"
+                        onChangeText={(text) => this.setState({ SSN_P: text })}
+                        value={this.state.SSN_P}
                     />
                 </View>
             );

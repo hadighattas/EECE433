@@ -26,7 +26,10 @@ export default class AddData extends Component {
             SSN_P:null,
             Name_P: null,
             Age:null,
-            SSN_D:null
+            add_id:null,
+            add_Name:null,
+            Trade_Name: null,
+            formula:null,
             
 
         };
@@ -35,18 +38,24 @@ export default class AddData extends Component {
 
     async Submit() {
         const {table} = this.state;
-        if (table == "Doctor") {
+        if (table == "doctor") {
         var result = await this.state.database.addDoctor(this.state.SSN_D, this.state.Name_D, this.state.Specialty, this.state.Years_experience);
         }
-        if (table == "Patient") {
+        if (table == "patient") {
             var result = await this.state.database.addPatient(this.state.SSN_P, this.state.Name_P, this.state.Age, this.state.SSN_D);
             }
+        if (table == "addresses") {
+            var result = await this.state.database.addAddress(this.state.add_id, this.state.add_Name, this.state.SSN_P);
+            }
+            if (table == "drug") {
+                var result = await this.state.database.addDrug(this.state.Trade_Name, this.state.formula);
+                }
     }
 
 
     renderInputs() {
         const { table } = this.state;
-        if (table == "Doctor") {
+        if (table == "doctor") {
             return (
                 <View>
                 <TextInput
@@ -75,7 +84,7 @@ export default class AddData extends Component {
                 </View>  
             );
         }
-        if (table == "Patient") {
+        if (table == "patient") {
             return (
                 <View>
                 <TextInput
@@ -99,6 +108,44 @@ export default class AddData extends Component {
                     placeholder="SSN_D"
                     onChangeText={(text) => this.setState({SSN_D: text})}
                     value={this.state.SSN_D}
+                />
+                </View>  
+            );
+        }
+        if (table == "addresses") {
+            return (
+                <View>
+                <TextInput
+                    placeholder="add_id"
+                    keyboardType='numeric'
+                    onChangeText={(text) => this.setState({add_id: text})}
+                    value={this.state.add_id}
+                />
+                <TextInput
+                    placeholder="add_Name"
+                    onChangeText={(text) => this.setState({add_Name: text})}
+                    value={this.state.add_Name}
+                />
+                <TextInput
+                    placeholder="SSN_P"
+                    onChangeText={(text) => this.setState({SSN_P: text})}
+                    value={this.state.SSN_P}
+                />
+                </View>  
+            );
+        }
+        if (table == "drug") {
+            return (
+                <View>
+                <TextInput
+                    placeholder="Trade_Name"
+                    onChangeText={(text) => this.setState({Trade_Name: text})}
+                    value={this.state.Trade_Name}
+                />
+                <TextInput
+                    placeholder="formula"
+                    onChangeText={(text) => this.setState({formula: text})}
+                    value={this.state.formula}
                 />
                 </View>  
             );

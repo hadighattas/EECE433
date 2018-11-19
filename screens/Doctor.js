@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
 import Colors from '../constants/Colors';
-import { Input, Button } from 'react-native-elements';
-import { TextInput } from 'react-native-gesture-handler';
+import { Button } from 'react-native-elements';
 
 export default class Doctor extends Component {
     static navigationOptions = {
@@ -23,13 +22,6 @@ export default class Doctor extends Component {
             SSN_D: null
         };
         this.getDoctor = this.getDoctor.bind(this);
-        this.handleSSNChange = this.handleSSNChange.bind(this);
-    }
-
-    handleSSNChange(SSN_D) {
-        this.setState({
-            SSN_D
-        });
     }
 
     async getDoctor() {
@@ -41,17 +33,19 @@ export default class Doctor extends Component {
                 style={{
                     flex: 1,
                     flexDirection: 'column',
-                    justifyContent: 'center',
                     alignItems: 'center'
                 }}
             >
-                <Input
+                <TextInput
+                    containerStyle={{ margin: 20 }}
                     placeholder="SSN_D"
-                    onChangeText={(text) => this.handleSSNChange(text)}
+                    value={this.state.SSN_D}
+                    onChangeText={(text) => this.setState({ SSN_D: text })}
                 />
                 <Button
-                    title="get"
-                    onPress={() => this.getDoctor()} />
+                    title="Search"
+                    onPress={() => this.getDoctor()}
+                    buttonStyle={{ backgroundColor: Colors.doctor.main, margin: 20 }} />
             </View>
         );
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Picker } from 'react-native';
+import { Platform, StyleSheet, Text, View, Picker, TextInput } from 'react-native';
 import Colors from '../constants/Colors';
 import DatePicker from 'react-native-datepicker';
 
@@ -19,17 +19,88 @@ export default class AddData extends Component {
         super(props);
         this.state = {
             table: 'Doctor',
-            data
+            SSN_D: null,
+            Name_D: null,
+            Specialty: null,
+            Years_experience: null,
+            SSN_P:null,
+            Name_P: null,
+            Age:null,
+            SSN_D:null
+            
+
         };
+        this.Submit= this.Submit.bind(this);
     }
 
+    async Submit() {
+        const {table} = this.state;
+        if (table == "Doctor") {
+        var result = await this.state.database.addDoctor(this.state.SSN_D, this.state.Name_D, this.state.Specialty, this.state.Years_experience);
+        }
+        if (table == "Patient") {
+            var result = await this.state.database.addPatient(this.state.SSN_P, this.state.Name_P, this.state.Age, this.state.SSN_D);
+            }
+    }
+
+
     renderInputs() {
-        const { tabe } = this.state;
+        const { table } = this.state;
         if (table == "Doctor") {
             return (
                 <View>
+                <TextInput
+                    placeholder="SSN_D"
+                    onChangeText={(text) => this.setState({SSN_D: text})}
+                    value={this.state.SSN_D}
+                />
+                <TextInput
+                    placeholder="Name_D"
+                    onChangeText={(text) => this.setState({Name_D: text})}
+                    value={this.state.Name_D}
+                />
+                <TextInput
+                    placeholder="Specialty"
+                    onChangeText={(text) => this.setState({Specialty: text})}
+                    value={this.state.Specialty}
+                />
 
-                </View>
+                <TextInput
+                    placeholder="Years_experience"
+                    keyboardType='numeric'
+                    onChangeText={(text) => this.setState({Years_experience: text})}
+                    value={this.state.Years_experience}
+                />
+
+                </View>  
+            );
+        }
+        if (table == "Patient") {
+            return (
+                <View>
+                <TextInput
+                    placeholder="SSN_P"
+                    onChangeText={(text) => this.setState({SSN_P: text})}
+                    value={this.state.SSN_P}
+                />
+                <TextInput
+                    placeholder="Name_P"
+                    onChangeText={(text) => this.setState({Name_P: text})}
+                    value={this.state.Name_P}
+                />
+                <TextInput
+                    placeholder="Age"
+                    keyboardType='numeric'
+                    onChangeText={(text) => this.setState({Age: text})}
+                    value={this.state.Age}
+                />
+
+                <TextInput
+                    placeholder="SSN_D"
+                    onChangeText={(text) => this.setState({SSN_D: text})}
+                    value={this.state.SSN_D}
+                />
+                </View>  
             );
         }
     }
@@ -65,7 +136,7 @@ export default class AddData extends Component {
                 {this.renderInputs()}
                 <Button
                     title="Submit"
-                    onPress={() => this.getDoctor()} />
+                    onPress={() => this.Submit()} />
             </View>
         );
     }

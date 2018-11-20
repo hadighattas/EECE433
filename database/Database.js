@@ -21,14 +21,15 @@ class Database {
     async getDoctor(SSN_D) {
         return new Promise(resolve => {
             this.db.transaction((tx) => {
-                tx.executeSql('Select Doctor.SSN_D, Name_D, Name_P from Doctor,Patient,Has_a where Doctor.SSN_D=' + this.quote(SSN_D) + ' and Has_a.SSN_D=Doctor.SSN_D and Has_a.SSN_P=Patient.SSN_P',
-                    [], (tx, results) => {
-                        resolve(results);
-                    })
-                // tx.executeSql('Select * from Pharmacy',
+                // tx.executeSql('Select Doctor.SSN_D, Name_D, Name_P from Doctor,Patient,Has_a where Doctor.SSN_D=' + this.quote(SSN_D) + ' and Has_a.SSN_D=Doctor.SSN_D and Has_a.SSN_P=Patient.SSN_P',
                 //     [], (tx, results) => {
                 //         resolve(results);
                 //     })
+                tx.executeSql('pragma foreign_keys',
+                    [], (tx, results) => {
+                        resolve(results);
+                        console.log(results);
+                    })
             });
         });
     }
@@ -145,7 +146,7 @@ class Database {
         return new Promise(resolve => {
             this.db.transaction((tx) => {
 
-                tx.executeSql('INSERT INTO Prescribe values(' + Date + ',' + Quantity + ',' + this.quote(Trade_Name) + ',' + this.quote(SSN_D) + ',' + this.quote(SSN_P) + ')',
+                tx.executeSql('INSERT INTO Prescribe values(' + this.quote(Date) + ',' + Quantity + ',' + this.quote(Trade_Name) + ',' + this.quote(SSN_D) + ',' + this.quote(SSN_P) + ')',
                     [], (tx, results) => {
                         resolve(results);
                     })
@@ -215,6 +216,7 @@ class Database {
 }
 
 const creationQueries = [
+    'PRAGMA foreign_keys = 1;',
     'create table if not exists Doctor (SSN_D char(10) primary key, Name_D char(20) not null, Speciality char(20), Years_experience int) ',
     'create table if not exists Patient (SSN_P char(10) primary key, Name_P char(20) not null, Age int,SSN_D char(10) not null, foreign key(SSN_D) references Doctor(SSN_D))',
     'create table if not exists Addresses (add_id char (10), add_Name char(40) not null, SSN_P char(10),foreign key (SSN_P) references Patient(SSN_P), primary key (add_id,SSN_P))',
@@ -225,6 +227,6 @@ const creationQueries = [
     'create table if not exists Sells (Trade_Name char(15),Price real not null, Name_Ph char(20), Address_Ph char(40),foreign key (Trade_Name) references Drug(Trade_Name), foreign key (Name_Ph, Address_Ph) references Pharmacy(Name_Ph, Address_Ph), primary key (Trade_Name, Name_Ph, Address_Ph))',
     'create table if not exists Sells2 (Trade_Name char(15), Name_PC char(20), foreign key(Trade_Name) references Drug(Trade_Name), foreign key(Name_PC) references Pharmaceutical_Company(Name_PC),primary key (Trade_Name, Name_PC))',
     'create table if not exists Contract (Name_Ph char(20),Address_Ph char(40),Name_PC char(20),Start_Date datetime not null, End_Date datetime not null, Text char (100), Supervisor char(15) not null, foreign key (Name_Ph, Address_Ph) references Pharmacy(Name_Ph, Address_Ph), foreign key(Name_PC) references Pharmaceutical_Company(Name_PC),primary key (Name_Ph, Name_PC))',
-    'create table if not exists Has_a (SSN_D char(10),SSN_P char(10), foreign key(SSN_D) references Doctor(SSN_D), foreign key(SSN_P) references Patient(SSN_P), primary key (SSN_D, SSN_P))'
+    'create table if not exists Has_a (SSN_D char(10),SSN_P char(10), foreign key(SSN_D) references Doctor(SSN_D), foreign key(SSN_P) references Patient(SSN_P), primary key (SSN_D, SSN_P))',
 ]
 export default Database;

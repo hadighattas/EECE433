@@ -19,20 +19,21 @@ class Database {
     }
 
     async getDoctor(SSN_D) {
-        console.log(SSN_D);
         return new Promise(resolve => {
             this.db.transaction((tx) => {
-
-                tx.executeSql('Select Doctor.SSN_D, Name_D, Name_P from Doctor,Patient,Has_a where Doctor.SSN_D= ' + this.quote(SSN_D) + 'and Has_a.SSN_D=Doctor.SSN_D and Has_a.SSN_P=Patient.SSN_P',
+                tx.executeSql('Select Doctor.SSN_D, Name_D, Name_P from Doctor,Patient,Has_a where Doctor.SSN_D=' + this.quote(SSN_D) + ' and Has_a.SSN_D=Doctor.SSN_D and Has_a.SSN_P=Patient.SSN_P',
                     [], (tx, results) => {
                         resolve(results);
                     })
+                // tx.executeSql('Select * from Pharmacy',
+                //     [], (tx, results) => {
+                //         resolve(results);
+                //     })
             });
         });
     }
 
     async getPatientDrugs(SSN_P) {
-        console.log(SSN_P);
         return new Promise(resolve => {
             this.db.transaction((tx) => {
 
@@ -45,7 +46,6 @@ class Database {
     }
 
     async getPatientDoctors(SSN_P) {
-        console.log(SSN_P);
         return new Promise(resolve => {
             this.db.transaction((tx) => {
 
@@ -76,7 +76,6 @@ class Database {
                 tx.executeSql('INSERT INTO Doctor values(' + this.quote(SSN_D) + ',' + this.quote(Name_D) + ',' + this.quote(Speciality) + ',' + Years_experience + ')',
                     [], (tx, results) => {
                         resolve(results);
-                        console.log(results);
                     })
             });
         });
@@ -110,7 +109,7 @@ class Database {
         return new Promise(resolve => {
             this.db.transaction((tx) => {
 
-                tx.executeSql('INSERT INTO Addresses values(' + this.quote(Trade_Name) + ',' + this.quote(formula) + ')',
+                tx.executeSql('INSERT INTO Drug values(' + this.quote(Trade_Name) + ',' + this.quote(formula) + ')',
                     [], (tx, results) => {
                         resolve(results);
                     })
@@ -194,7 +193,7 @@ class Database {
         return new Promise(resolve => {
             this.db.transaction((tx) => {
 
-                tx.executeSql('INSERT INTO Has_a values(' + quote(SSN_D) + ',' + this.quote(SSN_P) + ')',
+                tx.executeSql('INSERT INTO Has_a values(' + this.quote(SSN_D) + ',' + this.quote(SSN_P) + ')',
                     [], (tx, results) => {
                         resolve(results);
                     })

@@ -19,6 +19,7 @@ export default class AddData extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            database: this.props.navigation.getParam('database', null),
             table: 'doctor',
             SSN_D: null,
             Name_D: null,
@@ -77,10 +78,10 @@ export default class AddData extends Component {
             var result = await this.state.database.addSells2(this.state.Trade_Name, this.state.Name_PC);
         }
         else if (table == "Contract") {
-            var result = await this.state.database.addSells2(this.state.Name_Ph, this.state.Address_Ph, this.state.Name_PC, this.state.Start_Date, this.state.End_Date, this.state.End_Date, this.state.Text, this.state.Supervisor);
+            var result = await this.state.database.addContract(this.state.Name_Ph, this.state.Address_Ph, this.state.Name_PC, this.state.Start_Date, this.state.End_Date, this.state.End_Date, this.state.Text, this.state.Supervisor);
         }
         else if (table == "Has_a") {
-            var result = await this.state.database.addSells2(this.state.SSN_D, this.state.SSN_P);
+            var result = await this.state.database.addHas_a(this.state.SSN_D, this.state.SSN_P);
         }
     }
 
@@ -226,8 +227,8 @@ export default class AddData extends Component {
                 <View>
                     <DatePicker
                         style={{ width: 200 }}
-                        Date={this.state.Date}
-                        mode="Date"
+                        date={this.state.Date}
+                        mode="date"
                         placeholder="Date"
                         format="YYYY-MM-DD"
                         confirmBtnText="Confirm"
@@ -417,8 +418,11 @@ export default class AddData extends Component {
                 }}
             >
                 <Picker
+                    mode="dropdown"
                     selectedValue={this.state.table}
-                    style={{ height: 50, width: 200 }}
+                    style={{
+                        height: 50, minWidth: 200, flexDirection: 'column'
+                    }}
                     onValueChange={(itemValue, itemIndex) => this.setState({ table: itemValue })}>
                     <Picker.Item label="Doctor" value="doctor" />
                     <Picker.Item label="Patient" value="patient" />
@@ -439,7 +443,7 @@ export default class AddData extends Component {
                     title="Submit"
                     onPress={() => this.Submit()}
                     buttonStyle={{ backgroundColor: Colors.addData.main, margin: 20 }} />
-            </View>
+            </View >
         );
     }
 }

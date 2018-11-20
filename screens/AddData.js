@@ -335,8 +335,8 @@ export default class AddData extends Component {
                     />
                     <DatePicker
                         style={{ width: 200 }}
-                        Date={this.state.Date}
-                        mode="Start_Date"
+                        date={this.state.Start_Date}
+                        mode="date"
                         placeholder="Start_Date"
                         format="YYYY-MM-DD"
                         confirmBtnText="Confirm"
@@ -357,8 +357,8 @@ export default class AddData extends Component {
                     />
                     <DatePicker
                         style={{ width: 200 }}
-                        Date={this.state.Date}
-                        mode="End_Date"
+                        date={this.state.End_Date}
+                        mode="date"
                         placeholder="End_Date"
                         format="YYYY-MM-DD"
                         confirmBtnText="Confirm"

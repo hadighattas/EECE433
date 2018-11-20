@@ -30,18 +30,20 @@ export default class Patient extends Component {
         var results = await this.state.database.getPatientDrugs(this.state.SSN_P);
         var len = results.rows.length;
         var data = [];
+        var getPatient= null;
         for (let i = 0; i < len; i++) {
             let row = results.rows.item(i);
             console.log(row);
             data[i] = [row.SSN_P, row.Name_P, row.Trade_Name]
         }
         getPatient='Drugs'
-        this.setState({ data });
+        this.setState({ data, getPatient });
     }
 
     async getPatientDoctors() {
         var results = await this.state.database.getPatientDoctors(this.state.SSN_P);
         var len = results.rows.length;
+        var getPatient= null;
         var data = [];
         for (let i = 0; i < len; i++) {
             let row = results.rows.item(i);
@@ -49,7 +51,7 @@ export default class Patient extends Component {
             data[i] = [row.SSN_P, row.Name_P, row.Name_D]
         }
         getPatient='Doctors'
-        this.setState({ data });
+        this.setState({ data, getPatient });
     }
 
     renderTable() {

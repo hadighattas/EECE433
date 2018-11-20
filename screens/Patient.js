@@ -20,7 +20,7 @@ export default class Patient extends Component {
         this.state = {
             database: this.props.navigation.getParam('database', null),
             SSN_P: null,
-            data: []
+            data: [], getPatient:null
         };
         this.getPatientDrugs = this.getPatientDrugs.bind(this);
         this.getPatientDoctors = this.getPatientDoctors.bind(this);
@@ -33,7 +33,10 @@ export default class Patient extends Component {
         for (let i = 0; i < len; i++) {
             let row = results.rows.item(i);
             console.log(row);
+            data[i] = [row.SSN_P, row.Name_P, row.Trade_Name]
         }
+        getPatient='Drugs'
+        this.setState({ data });
     }
 
     async getPatientDoctors() {
@@ -43,11 +46,21 @@ export default class Patient extends Component {
         for (let i = 0; i < len; i++) {
             let row = results.rows.item(i);
             console.log(row);
-
-            data[i] = [row.SSN_D, row.Name_D, row.Name_P]
+            data[i] = [row.SSN_P, row.Name_P, row.Name_D]
         }
+        getPatient='Doctors'
         this.setState({ data });
     }
+
+    renderTable() {
+        if (this.state.data.length)
+            if(this.state.getPatient === 'Drugs')
+                return (<Table headers={['SSN_P', 'Name_P', 'Trade_Name']} content={this.state.data} color={Colors.patient.main} />);
+            else if(this.state.getPatient === 'Doctors')
+                return (<Table headers={['SSN_P', 'Name_P', 'Name_D']} content={this.state.data} color={Colors.patient.main} />);
+        else return (<View />);
+    }
+
 
     render() {
         return (
@@ -72,6 +85,8 @@ export default class Patient extends Component {
                     title="Get doctors"
                     onPress={() => this.getPatientDoctors()}
                     buttonStyle={{ backgroundColor: Colors.patient.main, margin: 20 }} />
+           
+                {this.renderTable()}
             </View>
         );
     }

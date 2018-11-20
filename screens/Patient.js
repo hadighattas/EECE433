@@ -19,20 +19,34 @@ export default class Patient extends Component {
         super(props);
         this.state = {
             database: this.props.navigation.getParam('database', null),
-            SSN_P: null
+            SSN_P: null,
+            data: []
         };
         this.getPatientDrugs = this.getPatientDrugs.bind(this);
         this.getPatientDoctors = this.getPatientDoctors.bind(this);
     }
 
     async getPatientDrugs() {
-        var result = await this.state.database.getPatientDrugs(this.state.SSN_P);
-
+        var results = await this.state.database.getPatientDrugs(this.state.SSN_P);
+        var len = results.rows.length;
+        var data = [];
+        for (let i = 0; i < len; i++) {
+            let row = results.rows.item(i);
+            console.log(row);
+        }
     }
 
     async getPatientDoctors() {
-        var result = await this.state.database.getPatientDrugs(this.state.SSN_P);
+        var results = await this.state.database.getPatientDoctors(this.state.SSN_P);
+        var len = results.rows.length;
+        var data = [];
+        for (let i = 0; i < len; i++) {
+            let row = results.rows.item(i);
+            console.log(row);
 
+            data[i] = [row.SSN_D, row.Name_D, row.Name_P]
+        }
+        this.setState({ data });
     }
 
     render() {

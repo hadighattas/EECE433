@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Picker, TextInput } from 'react-native';
+import { View, Picker, TextInput, Alert, Keyboard } from 'react-native';
 import Colors from '../constants/Colors';
 import { Button } from "react-native-elements";
 import DatePicker from 'react-native-datepicker';
@@ -49,39 +49,75 @@ export default class AddData extends Component {
     }
 
     async Submit() {
+        Keyboard.dismiss();
         const { table } = this.state;
+        var results = null;
         if (table == "doctor") {
-            var result = await this.state.database.addDoctor(this.state.SSN_D, this.state.Name_D, this.state.Specialty, this.state.Years_experience);
+            results = await this.state.database.addDoctor(this.state.SSN_D, this.state.Name_D, this.state.Specialty, this.state.Years_experience);
         }
         else if (table == "patient") {
-            var result = await this.state.database.addPatient(this.state.SSN_P, this.state.Name_P, this.state.Age, this.state.SSN_D);
+            results = await this.state.database.addPatient(this.state.SSN_P, this.state.Name_P, this.state.Age, this.state.SSN_D);
         }
         else if (table == "addresses") {
-            var result = await this.state.database.addAddress(this.state.add_id, this.state.add_Name, this.state.SSN_P);
+            results = await this.state.database.addAddress(this.state.add_id, this.state.add_Name, this.state.SSN_P);
         }
         else if (table == "drug") {
-            var result = await this.state.database.addDrug(this.state.Trade_Name, this.state.formula);
+            results = await this.state.database.addDrug(this.state.Trade_Name, this.state.formula);
         }
         else if (table == "Pharmaceutical_Company") {
-            var result = await this.state.database.addPC(this.state.Name_PC, this.state.Phone_Number_PC);
+            results = await this.state.database.addPC(this.state.Name_PC, this.state.Phone_Number_PC);
         }
         else if (table == "Pharmacy") {
-            var result = await this.state.database.addPharmacy(this.state.Name_Ph, this.state.Address_Ph, this.state.Phone_Number_Ph);
+            results = await this.state.database.addPharmacy(this.state.Name_Ph, this.state.Address_Ph, this.state.Phone_Number_Ph);
         }
         else if (table == "Prescribe") {
-            var result = await this.state.database.addPrescribe(this.state.Date, this.state.Quantity, this.state.Trade_Name, this.state.SSN_D, this.state.SSN_P);
+            results = await this.state.database.addPrescribe(this.state.Date, this.state.Quantity, this.state.Trade_Name, this.state.SSN_D, this.state.SSN_P);
         }
         else if (table == "Sells") {
-            var result = await this.state.database.addSells(this.state.Trade_Name, this.state.Price, this.state.Name_Ph, this.state.Address_Ph);
+            results = await this.state.database.addSells(this.state.Trade_Name, this.state.Price, this.state.Name_Ph, this.state.Address_Ph);
         }
         else if (table == "Sells2") {
-            var result = await this.state.database.addSells2(this.state.Trade_Name, this.state.Name_PC);
+            results = await this.state.database.addSells2(this.state.Trade_Name, this.state.Name_PC);
         }
         else if (table == "Contract") {
-            var result = await this.state.database.addContract(this.state.Name_Ph, this.state.Address_Ph, this.state.Name_PC, this.state.Start_Date, this.state.End_Date, this.state.End_Date, this.state.Text, this.state.Supervisor);
+            results = await this.state.database.addContract(this.state.Name_Ph, this.state.Address_Ph, this.state.Name_PC, this.state.Start_Date, this.state.End_Date, this.state.End_Date, this.state.Text, this.state.Supervisor);
         }
         else if (table == "Has_a") {
-            var result = await this.state.database.addHas_a(this.state.SSN_D, this.state.SSN_P);
+            results = await this.state.database.addHas_a(this.state.SSN_D, this.state.SSN_P);
+        }
+        if (results != null && 'message' in results) {
+            Alert.alert(
+                results.message
+            )
+        } else {
+            this.setState({
+                SSN_D: null,
+                Name_D: null,
+                Specialty: null,
+                Years_experience: null,
+                SSN_P: null,
+                Name_P: null,
+                Age: null,
+                add_id: null,
+                add_Name: null,
+                Trade_Name: null,
+                formula: null,
+                Name_PC: null,
+                Phone_Number_PC: null,
+                Name_Ph: null,
+                Address_Ph: null,
+                Phone_Number_Ph: null,
+                Date: null,
+                Quantity: null,
+                Price: null,
+                Start_Date: null,
+                End_Date: null,
+                Text: null,
+                Supervisor: null,
+            });
+            Alert.alert(
+                'Record Added'
+            )
         }
     }
 

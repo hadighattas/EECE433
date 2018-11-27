@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { View, TextInput, Alert, Keyboard } from 'react-native';
 import Colors from '../constants/Colors';
 import { Button } from 'react-native-elements';
 import Table from '../components/Table';
@@ -27,8 +27,16 @@ export default class Doctor extends Component {
     }
 
     async getDoctor() {
+        Keyboard.dismiss();
         var results = await this.state.database.getDoctor(this.state.SSN_D);
         var len = results.rows.length;
+
+        if (results.rows.length === 0) {
+            Alert.alert(
+                'No records found'
+            )
+        }
+
         var data = [];
         for (let i = 0; i < len; i++) {
             let row = results.rows.item(i);

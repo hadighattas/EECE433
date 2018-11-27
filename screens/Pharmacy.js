@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Text, View, Keyboard } from 'react-native';
 import Colors from '../constants/Colors';
 import { Button } from 'react-native-elements';
 import Table from '../components/Table';
@@ -26,6 +26,7 @@ export default class Pharmacy extends Component {
     }
 
     async getPharmacies() {
+        Keyboard.dismiss();
         var results = await this.state.database.getPharmacies(this.state.SSN_P);
         var len = results.rows.length;
         var data = [];
